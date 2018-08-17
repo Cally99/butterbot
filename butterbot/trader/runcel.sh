@@ -14,3 +14,4 @@ celery -A butterbot worker -l info
 cd butterbot
 celery -A butterbot control shutdown
 
+#THIS ISN'T BEING USED RIGHT NOW
