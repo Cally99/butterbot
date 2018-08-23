@@ -1,5 +1,6 @@
 
 from django.db import models
+import django_tables2 as tables
 
 from django.utils import timezone
 
@@ -27,7 +28,8 @@ class BFPlayer(models.Model):
     gender = models.IntegerField(null=True) # filled with a binding
 
 class BFEvent(models.Model):
-    meid = models.IntegerField(null=True)
+    marids = models.FloatField(null=True,db_index=True)
+    mids = models.IntegerField(null=True)
     bfid=models.IntegerField()
     lid = models.IntegerField(null=True,db_index=True)
     cid=models.ForeignKey(BFChamp,null=True,db_index=True, on_delete=models.PROTECT)
@@ -40,6 +42,11 @@ class BFEvent(models.Model):
     dtip = models.DateTimeField(null=True)
     status = models.IntegerField(null=True) # 0 if ni, 1 if ip
     reversed = models.IntegerField(null=True)
+
+
+    def __str__(self):
+        return ' %s %s %s %s %s' % (self.mids , self.bfid , self.cid , self.pid1, self.pid2)
+
 
     @property
     def dt_tz(self):
@@ -65,5 +72,24 @@ class BFOdds(models.Model):
     @property
     def dtc_tz(self):
         return timezone.make_naive(self.dtc)
+
+
+class BFOddsTable(tables.Table):
+    class Meta:
+        model = BFOdds
+
+class BFPlayerTable(tables.Table):
+    class Meta:
+        model = BFPlayer
+
+
+class BFEventTable(tables.Table):
+    class Meta:
+        model = BFEvent
+
+
+class BFChampTable(tables.Table):
+    class Meta:
+        model = BFChamp
 
 

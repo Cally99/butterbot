@@ -110,7 +110,7 @@ def parse_market(event, cat):
 
 
 @shared_task
-def parse_runners(market, items):
+def parse_runners(market, items,):
     """Parses runners from MarketCatalogue object"""
     runners = []
     for runner_item in items:
